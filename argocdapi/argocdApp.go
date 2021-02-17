@@ -54,7 +54,7 @@ type argocdappstatus struct {
 	} `json:"status"`
 }
 
-func newArgocdApp(appName string, artifactoryURL string, targetVersion string, chartName string, namespace string) argocdapp {
+func NewArgocdApp(appName string, artifactoryURL string, targetVersion string, chartName string, namespace string) argocdapp {
 
 	newapp := &argocdapp{
 		Metadata: Metadata{
@@ -78,7 +78,7 @@ func newArgocdApp(appName string, artifactoryURL string, targetVersion string, c
 	return *newapp
 }
 
-func getToken(client http.Client, Username string, Password string, url string) string {
+func GetToken(client http.Client, Username string, Password string, url string) string {
 
 	jsonData := map[string]string{"username": Username, "password": Password}
 	jsonValue, _ := json.Marshal(jsonData)
@@ -99,7 +99,7 @@ func getToken(client http.Client, Username string, Password string, url string) 
 	return responseObject.Token
 }
 
-func (a argocdapp) createArgocdApp(client http.Client, token string, url string) {
+func (a argocdapp) CreateArgocdApp(client http.Client, token string, url string) {
 
 	createURL := url + "/api/v1/applications"
 	method := "POST"
@@ -127,7 +127,7 @@ func (a argocdapp) createArgocdApp(client http.Client, token string, url string)
 	fmt.Println(string(body))
 }
 
-func (a argocdapp) updateArgocdApp(client http.Client, token string, url string) {
+func (a argocdapp) UpdateArgocdApp(client http.Client, token string, url string) {
 
 	updateURL := url + "/api/v1/applications/" + a.Metadata.Name
 	method := "PUT"
@@ -157,7 +157,7 @@ func (a argocdapp) updateArgocdApp(client http.Client, token string, url string)
 
 }
 
-func (a argocdapp) getArgocdAppStatus(client http.Client, token string, url string) string {
+func (a argocdapp) GetArgocdAppStatus(client http.Client, token string, url string) string {
 
 	getURL := url + "/api/v1/applications/" + a.Metadata.Name
 	method := "GET"
@@ -188,7 +188,7 @@ func (a argocdapp) getArgocdAppStatus(client http.Client, token string, url stri
 	return heathofapp.Status.Health.Status
 }
 
-func (a argocdapp) deleteArgocdApp(client http.Client, token string, url string) {
+func (a argocdapp) DeleteArgocdApp(client http.Client, token string, url string) {
 
 	deleteURL := url + "/api/v1/applications/" + a.Metadata.Name
 	method := "DELETE"
